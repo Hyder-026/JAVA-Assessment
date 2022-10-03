@@ -1,0 +1,136 @@
+Question 1
+------------------------------------------------------
+
+package JAVA_Assessment;
+import java.io.*;
+import java.util.*;
+
+class ProductLoader{
+	private static List<Product> lst = new ArrayList<>();
+
+	public static void loadProduct() throws Exception {
+		lst.clear();
+
+		BufferedReader bf = new BufferedReader(new FileReader(new File("src/JAVA_Assessment/Product.txt")));
+
+		String line;
+		while((line=bf.readLine())!=null) {
+			String arr[] = line.split(",");
+			Product prod = new Product(arr[0],arr[1],Double.parseDouble(arr[2]),Integer.parseInt(arr[3]));
+			lst.add(prod);
+		}
+
+	}
+
+
+	public static List<Product> getProductList(){
+		return lst;
+	}
+
+	public int getProductlistLength(){
+		return lst.size();
+	}
+	
+	public static Product searchProduct(String productID) {
+		List <Product> temp_lt = getProductList();
+		for(Product p : temp_lt) {
+			if(p.productID.equals(productID) ) {
+				return p;
+			}
+		}
+		return null;
+	}
+}
+
+public class Product {
+
+	String productID,productName;
+	double price;
+	int quantity;
+
+	public Product(String productID, String productName, double price, int quantity) {
+
+		this.productID = productID;
+		this.productName = productName;
+		this.price = price;
+		this.quantity = quantity;
+	}
+
+	public String getProductID() {
+		return productID;
+	}
+
+	public void setProductID(String productID) {
+		this.productID = productID;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	@Override
+	public String toString() {
+		return "Product Details: "+"\nProduct ID: "+productID+"\nProduct Name: "+productName+
+				"\nProduct Price:"+price+"\nProduct Quantity: "+quantity;
+	}
+
+	public static void main(String[] args) throws Exception{
+
+		ProductLoader prodloader = new ProductLoader();
+		prodloader.loadProduct();
+
+//		prodloader.getProductList();
+		
+		Scanner scan = new Scanner(System.in);
+		System.out.println("Enter the Product ID: ");
+		String pro_Id = scan.nextLine();
+		if(prodloader.searchProduct(pro_Id)!=null) {
+			System.out.println(prodloader.searchProduct(pro_Id));
+		} 
+		else {
+			String productId = pro_Id;
+			System.out.println("No product found for product id "+productId+". Add product details");
+			System.out.println("Enter Product name: ");
+			String product_name = scan.nextLine();
+
+			System.out.println("Enter Product price: ");
+			String price=scan.nextLine();
+
+			System.out.println("Enter Product quantity: ");
+			String quantity =scan.nextLine();
+
+			String str = "\n"+productId+","+product_name+","+price+","+quantity;
+			
+			String filename = "src/JAVA_Assessment/Product.txt";
+			BufferedWriter out = new BufferedWriter(new FileWriter(filename, true));
+
+			out.write(str);
+			out.close();
+			System.out.println("Product details successfully added for product id "+productId+".");
+			
+		}
+		prodloader.loadProduct();
+		System.out.println("Total number of products: "+prodloader.getProductlistLength());
+	}
+
+}

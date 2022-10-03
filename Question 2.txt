@@ -1,0 +1,139 @@
+package JAVA_Assessment;
+import java.util.*;
+
+
+class RegularMemeber {
+	int memship_fee=0;
+	int enroll_fee=0;
+
+	int charges_per_month=20000;
+
+	int mon;
+
+	public RegularMemeber(int mon) {
+		super();
+		this.mon=mon;
+	}
+
+	public void show_bill() {
+		System.out.println("Billing for Regular Member : ");
+		System.out.println("Membership Fee : "+this.memship_fee);
+		System.out.println("Enrollment Fee : "+this.enroll_fee);
+		System.out.println("Charges Per Month for Regular member is Rs.20,000");
+		System.out.println("--------------------------------");
+		int charges = this.mon * this.charges_per_month + this.memship_fee + this.enroll_fee;
+		System.out.println("Total amount : "+charges);
+	}    
+}
+
+
+class GoldMemeber extends RegularMemeber{
+
+	int memship_fee=90000;
+	int enroll_fee=10000;
+
+	int charges_per_month=10000;
+
+	public GoldMemeber(int mon) {
+		super(mon);
+	}
+
+	@Override
+	public void show_bill() {
+		System.out.println("Billing for Gold member : ");
+		System.out.println("Membership Fee : "+this.memship_fee);
+		System.out.println("Enrollment Fee : "+this.enroll_fee);
+		System.out.println("Free for first 6 months");
+		System.out.println("After 6 months charges will be 10000 per month");
+		System.out.println();
+
+		if(mon<=6) {
+			int fee = this.memship_fee+this.enroll_fee;
+			System.out.println("Total amount : "+fee);
+		}
+
+		if(mon>6)
+		{    
+			int fee= this.memship_fee+this.enroll_fee + ((this.mon-6) * this.charges_per_month);
+			System.out.println("Total amount paid: "+fee);
+		}
+	}
+
+}
+
+class SilverMemeber extends RegularMemeber{
+
+
+	int membership_fee=15000;
+	int enrollment_fee=5000;
+	int charges_per_month=20000;
+
+
+
+	public SilverMemeber(int mon) {
+		super(mon);
+	}
+
+	@Override
+	public void show_bill() {
+		System.out.println("Billing for Silver member : ");
+		System.out.println("Membership Fee : "+this.memship_fee);
+		System.out.println("Enrollment Fee : "+this.enroll_fee);
+		System.out.println("Charges for first 6 months are Free");
+		System.out.println("After 6 months charges will be Rs.20000 per month");
+		System.out.println();
+
+		if(mon<=6) {
+			int fee=+this.memship_fee+this.enroll_fee;
+			System.out.println("Total amount : "+fee);
+		}
+
+
+		if(mon>6)
+		{
+			int fee=this.memship_fee + this.enroll_fee+((this.mon-6) * this.charges_per_month);
+			System.out.println("Total amount paid: "+fee);
+		}
+	}
+}
+
+public class ClubMemberShip {
+
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+
+		System.out.println("Enter the membership you want to enroll 1.regular/ 2.gold/ 3.silver: ");
+		int MemType=scan.nextInt();
+		System.out.println("Enter the number of months you want to enroll: ");
+		int months=scan.nextInt();
+		String membertype;
+		RegularMemeber mb ;
+
+		switch (MemType) {
+
+		case 1:
+			membertype = "Regular";
+			mb= new RegularMemeber(months);
+			mb.show_bill();
+			break;
+
+		case 2:
+			membertype = "Gold";
+			mb = new GoldMemeber(months);
+			mb.show_bill();
+			break;
+
+		case 3:
+			membertype = "Silver";
+			mb = new SilverMemeber(months);
+			mb.show_bill();
+			break;
+
+		default:
+			System.out.println("choose one out of regular/gold/silver");
+			break;
+		}
+	}
+}
+
+

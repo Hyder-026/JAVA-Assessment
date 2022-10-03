@@ -1,0 +1,112 @@
+Question 3 B
+-------------------------------
+
+package JAVA_Assessment;
+import java.util.*;
+
+public class SurveyType {
+
+	String name;
+	static int colgate;
+	static int pepsodent;
+	static int patanjali;
+	static int dabar;
+	static String ans="Equal use of paste";
+	int choice;
+	static int countchild,countmen,countwomen;
+	int memtype;
+	String type;
+	Scanner scan = new Scanner(System.in);
+
+	public SurveyType() {
+		System.out.println("Enter Name");
+		this.name=scan.next();
+		System.out.println("1. For children 2. For men 3. For women");
+		this.memtype=scan.nextInt();
+		if(memtype==1) {
+			this.type="Children";
+			countchild++;
+			System.out.println("Enter Paste used: 1. For Colgate 2. For Pepsodent 3. For Patanjali 4. For Dabar");
+			choice=scan.nextInt();
+			SelectPaste(choice);
+		}
+		if(memtype==2) {
+			this.type="Men";
+			countmen++;
+			System.out.println("Enter Paste used: 1. For Colgate 2. For Pepsodent 3. For Patanjali 4. For Dabar");
+			choice=scan.nextInt();
+			SelectPaste(choice);
+		}
+		if(memtype==3) {
+			this.type="Women";
+			countwomen++;
+			System.out.println("Enter Paste used: 1. For Colgate 2. For Pepsodent 3. For Patanjali 4. For Dabar");
+			choice=scan.nextInt();
+			SelectPaste(choice);
+		}
+	}
+	public void SelectPaste(int choice) {
+		switch(choice) {
+		case 1: colgate++;
+		break;
+
+		case 2: pepsodent++;
+		break;
+
+		case 3: patanjali++;
+		break;
+
+		case 4: dabar++;
+		break;
+		}
+	}
+
+	public static String Max() {
+		if(colgate>pepsodent && colgate>patanjali && colgate>dabar) {
+			ans="COLGATE";
+		}
+		if(pepsodent>colgate && pepsodent>patanjali && pepsodent>dabar) {
+			ans="PEPSODENT";
+		}
+		if(patanjali>colgate && patanjali>pepsodent && patanjali>dabar) {
+			ans="PATANJALI";
+		}
+		if(dabar>colgate && dabar>patanjali && dabar>pepsodent) {
+			ans="DABAR";
+		}
+
+		return "Number of children: "+countchild+"\nNumber of women: "+countwomen+"\nNumber of men: "+
+		countmen+"\ncol: "+colgate+"\npep: "+pepsodent+"\npat: "+patanjali+"\ndab: "+dabar+
+		"\nmaximum is :"+ans;
+	}  
+
+}
+
+
+------------------------------
+
+package JAVA_Assessment;
+import java.util.*;
+
+public class PasteSurvey {
+
+	public static void main(String[] args) {
+
+		Scanner scan = new Scanner(System.in);
+		Map<Integer,SurveyType> mapValue= new HashMap<Integer,SurveyType>();
+		System.out.println("Enter the no. of people");
+
+		int num = scan.nextInt();
+
+		for(int i=1; i<=num; i++) {
+			mapValue.put(i, new SurveyType());
+		}
+		for(Map.Entry<Integer, SurveyType> entry:mapValue.entrySet()){    
+			int key=entry.getKey();  
+			SurveyType b=entry.getValue();  
+			System.out.println(key+" Data:");
+			System.out.println("Name: " + b.name  +  "\nMember type: " + b.memtype+"\nType: "+b.type);    
+		}
+		System.out.println(SurveyType.Max());
+	}
+}
